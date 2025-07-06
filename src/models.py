@@ -45,3 +45,22 @@ class Planet(db.Model):
             "population": self.population,
             "terrain": self.terrain
         }
+
+
+class Character(db.Model):
+    __tablename__ = 'character'
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
+    birth_year: Mapped[str] = mapped_column(String(20))
+    gender: Mapped[str] = mapped_column(String(20))
+    height: Mapped[int] = mapped_column(Integer)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "birth_year": self.birth_year,
+            "gender": self.gender,
+            "height": self.height
+        }
