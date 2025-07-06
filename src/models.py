@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, Boolean
+from sqlalchemy import String, Boolean, ForeignKey, Integer
 from sqlalchemy.orm import Mapped, mapped_column
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -24,4 +25,23 @@ class User(db.Model):
             "last_nem": self.last_name,
             "susbscription_date": self.susbscription_date.isoformat()
             # do not serialize the password, its a security breach
+        }
+
+
+class Planet(db.Model):
+    __tablename__ = 'planet'
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
+    climate: Mapped[str] = mapped_column(String(100))
+    population: Mapped[str] = mapped_column(Integer)
+    terrain: Mapped[str] = mapped_column(String(100))
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "climate": self.climate,
+            "population": self.population,
+            "terrain": self.terrain
         }
